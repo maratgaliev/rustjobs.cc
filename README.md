@@ -1,6 +1,6 @@
 # rustjobs.cc
 
-> Rust based API and Vue.js client app
+> Rust based API
 
 ## Setup
 
