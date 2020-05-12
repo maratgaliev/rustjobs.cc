@@ -3,6 +3,8 @@ CREATE TABLE jobs (
   title VARCHAR(255) NOT NULL,
   description TEXT NOT NULL,
   salary INT,
+  job_type character varying(255) NOT NULL,
+  is_remote boolean DEFAULT FALSE,
   currency character varying(255) NOT NULL,
   apply_url character varying(255),
   job_city character varying(255) NOT NULL,
@@ -11,5 +13,7 @@ CREATE TABLE jobs (
   company_twitter character varying(255),
   company_website character varying(255) NOT NULL,
   company_logo character varying(255),
-  slug character varying(255) NOT NULL
+  slug character varying(255) NOT NULL,
+  created_at timestamp NOT NULL,
+  updated_at timestamp
 );

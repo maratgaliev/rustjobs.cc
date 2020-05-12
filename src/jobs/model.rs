@@ -10,6 +10,8 @@ pub struct Job {
     pub title: String,
     pub description: String,
     pub salary: Option<i32>,
+    pub job_type: String,
+    pub is_remote: Option<bool>,
     pub currency: String,
     pub apply_url: Option<String>,
     pub job_city: String,
@@ -18,7 +20,9 @@ pub struct Job {
     pub company_twitter: Option<String>,
     pub company_website: String,
     pub company_logo: Option<String>,
-    pub slug: Option<String>
+    pub slug: Option<String>,
+    pub created_at: chrono::NaiveDateTime,
+    pub updated_at: Option<chrono::NaiveDateTime>,
 }
 
 #[derive(Serialize, Deserialize, Queryable, Insertable)]
@@ -28,6 +32,8 @@ pub struct Jobs {
     pub title: String,
     pub description: String,
     pub salary: Option<i32>,
+    pub job_type: String,
+    pub is_remote: Option<bool>,
     pub currency: String,
     pub apply_url: Option<String>,
     pub job_city: String,
@@ -36,7 +42,9 @@ pub struct Jobs {
     pub company_twitter: Option<String>,
     pub company_website: String,
     pub company_logo: Option<String>,
-    pub slug: String
+    pub slug: String,
+    pub created_at: chrono::NaiveDateTime,
+    pub updated_at: Option<chrono::NaiveDateTime>,
 }
 
 impl Jobs {
@@ -83,6 +91,8 @@ impl Job {
             title: job.title,
             description: job.description,
             salary: job.salary,
+            job_type: job.job_type,
+            is_remote: job.is_remote,
             currency: job.currency,
             apply_url: job.apply_url,
             job_city: job.job_city,
@@ -91,7 +101,9 @@ impl Job {
             company_twitter: job.company_twitter,
             company_website: job.company_website,
             company_logo: job.company_logo,
-            slug: job.slug
+            slug: job.slug,
+            created_at: job.created_at,
+            updated_at: job.updated_at
         }
     }
 }

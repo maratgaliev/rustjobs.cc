@@ -4,6 +4,8 @@ table! {
         title -> Varchar,
         description -> Text,
         salary -> Nullable<Int4>,
+        job_type -> Varchar,
+        is_remote -> Nullable<Bool>,
         currency -> Varchar,
         apply_url -> Nullable<Varchar>,
         job_city -> Varchar,
@@ -13,5 +15,7 @@ table! {
         company_website -> Varchar,
         company_logo -> Nullable<Varchar>,
         slug -> Varchar,
+        created_at -> Timestamp,
+        updated_at -> Nullable<Timestamp>,
     }
 }
