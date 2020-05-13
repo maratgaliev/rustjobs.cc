@@ -61,7 +61,7 @@ impl fmt::Debug for Job {
 impl Jobs {
     pub fn find_all() -> Result<Vec<Self>, CustomError> {
         let conn = db::connection()?;
-        let jobs = jobs::table.load::<Jobs>(&conn)?;
+        let jobs = jobs::table.select(jobs::all_columns).order(jobs::id.desc()).load::<Jobs>(&conn)?;
         Ok(jobs)
     }
 
