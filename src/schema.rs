@@ -14,8 +14,8 @@ table! {
         company_twitter -> Nullable<Varchar>,
         company_website -> Varchar,
         company_logo -> Nullable<Varchar>,
-        slug -> Varchar,
-        created_at -> Timestamp,
+        slug -> Nullable<Varchar>,
+        created_at -> Nullable<Timestamp>,
         updated_at -> Nullable<Timestamp>,
     }
 }

@@ -3,6 +3,8 @@ use crate::error_handler::CustomError;
 use crate::schema::jobs;
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
+use chrono::prelude::{Utc};
+use std::fmt;
 
 #[derive(Serialize, Deserialize, AsChangeset, Insertable)]
 #[table_name = "jobs"]
@@ -21,7 +23,7 @@ pub struct Job {
     pub company_website: String,
     pub company_logo: Option<String>,
     pub slug: Option<String>,
-    pub created_at: chrono::NaiveDateTime,
+    pub created_at: Option<chrono::NaiveDateTime>,
     pub updated_at: Option<chrono::NaiveDateTime>,
 }
 
@@ -42,9 +44,18 @@ pub struct Jobs {
     pub company_twitter: Option<String>,
     pub company_website: String,
     pub company_logo: Option<String>,
-    pub slug: String,
-    pub created_at: chrono::NaiveDateTime,
+    pub slug: Option<String>,
+    pub created_at: Option<chrono::NaiveDateTime>,
     pub updated_at: Option<chrono::NaiveDateTime>,
+}
+
+// DEBUG PURPOSES
+impl fmt::Debug for Job {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+      f.debug_struct("Job")
+       .field("created_at", &self.created_at)
+       .finish()
+  }
 }
 
 impl Jobs {
@@ -61,27 +72,19 @@ impl Jobs {
     }
 
     pub fn create(job: Job) -> Result<Self, CustomError> {
+        let now = Utc::now().naive_utc();
+        let job = Job {
+          created_at: Some(now),
+          updated_at: Some(now),
+          ..job
+        };
+
         let conn = db::connection()?;
         let job = Job::from(job);
         let job = diesel::insert_into(jobs::table)
             .values(job)
             .get_result(&conn)?;
         Ok(job)
-    }
-
-    pub fn update(id: i32, job: Job) -> Result<Self, CustomError> {
-        let conn = db::connection()?;
-        let job = diesel::update(jobs::table)
-            .filter(jobs::id.eq(id))
-            .set(job)
-            .get_result(&conn)?;
-        Ok(job)
-    }
-
-    pub fn delete(id: i32) -> Result<usize, CustomError> {
-        let conn = db::connection()?;
-        let res = diesel::delete(jobs::table.filter(jobs::id.eq(id))).execute(&conn)?;
-        Ok(res)
     }
 }
 

@@ -13,7 +13,7 @@ CREATE TABLE jobs (
   company_twitter character varying(255),
   company_website character varying(255) NOT NULL,
   company_logo character varying(255),
-  slug character varying(255) NOT NULL,
-  created_at timestamp NOT NULL,
+  slug character varying(255),
+  created_at timestamp,
   updated_at timestamp
 );
