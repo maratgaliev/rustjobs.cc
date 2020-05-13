@@ -1,6 +1,6 @@
-# rustjobs.cc
+# rustjobs.cc backend
 
-> Rust based API
+> http://rustjobs.cc backend API
 
 ## Setup
 
