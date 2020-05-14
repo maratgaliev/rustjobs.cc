@@ -7,7 +7,6 @@ use actix_cors::Cors;
 use actix_web::{http::header, middleware::Logger, App, HttpServer};
 use dotenv::dotenv;
 use listenfd::ListenFd;
-use std::env;
 
 mod db;
 mod jobs;
@@ -35,7 +34,7 @@ async fn main() -> std::io::Result<()> {
     server = match listenfd.take_tcp_listener(0)? {
         Some(listener) => server.listen(listener)?,
         None => {
-            let host = env::var("HOST").expect("Please set host in .env");
+            let host = "127.0.0.1";
             let port = 3000;
             server.bind(format!("{}:{}", host, port))?
         }
