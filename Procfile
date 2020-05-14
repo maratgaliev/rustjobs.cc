@@ -1,2 +1,2 @@
-release: ./target/release/diesel migration run
 web ./target/release/rustjobs
+heroku buildpacks:set emk/rust
