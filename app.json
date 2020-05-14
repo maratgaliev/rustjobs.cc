@@ -1,0 +1,11 @@
+{
+    "name": "Rustjobs",
+    "description": "Rust Jobs board",
+    "repository": "https://github.com/maratgaliev/rustjobs.cc",
+    "success_url": "/",
+    "keywords": ["rust", "actix", "rustjobs"],
+    "website": "https://github.com/maratgaliev/rustjobs.cc",
+    "env": {
+      "BUILDPACK_URL": "https://github.com/emk/heroku-buildpack-rust.git"
+    }
+  }
