@@ -36,7 +36,7 @@ async fn main() -> std::io::Result<()> {
         Some(listener) => server.listen(listener)?,
         None => {
             let host = env::var("HOST").expect("Please set host in .env");
-            let port = env::var("PORT").expect("Please set port in .env");
+            let port = 3000;
             server.bind(format!("{}:{}", host, port))?
         }
     };
