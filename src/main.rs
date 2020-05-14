@@ -6,7 +6,8 @@ extern crate diesel_migrations;
 use actix_cors::Cors;
 use actix_web::{http::header, middleware::Logger, App, HttpServer};
 use dotenv::dotenv;
-use listenfd::ListenFd;
+use std::env;
+use std::net::{IpAddr, Ipv4Addr};
 
 mod db;
 mod jobs;
@@ -19,8 +20,16 @@ async fn main() -> std::io::Result<()> {
     db::init();
     env_logger::init();
 
-    let mut listenfd = ListenFd::from_env();
-    let mut server = HttpServer::new(|| App::new().configure(jobs::init_routes).wrap(
+    const LOCALHOST: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
+    
+    let host = env::var("HOST")
+        .ok()
+        .and_then(|host| host.parse().ok())
+        .unwrap_or(LOCALHOST);
+    
+    let port = env::var("PORT").map(|s| s.parse().unwrap_or(3000)).unwrap_or(3000);
+        
+    HttpServer::new(|| App::new().configure(jobs::init_routes).wrap(
       Cors::new()
           .allowed_origin("http://localhost:8080")
           .allowed_methods(vec!["GET", "POST"])
@@ -28,17 +37,9 @@ async fn main() -> std::io::Result<()> {
           .allowed_header(header::CONTENT_TYPE)
           .max_age(3600)
           .finish(),
-  )
-  .wrap(Logger::default()));
-
-    server = match listenfd.take_tcp_listener(0)? {
-        Some(listener) => server.listen(listener)?,
-        None => {
-            let host = "127.0.0.1";
-            let port = 3000;
-            server.bind(format!("{}:{}", host, port))?
-        }
-    };
-
-    server.run().await
+    )
+    .wrap(Logger::default()))
+    .bind(format!("{}:{}", host, port))?
+    .run()
+    .await
 }
