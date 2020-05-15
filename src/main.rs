@@ -28,15 +28,15 @@ async fn main() -> std::io::Result<()> {
         .unwrap_or(LOCALHOST);
 
     let port = env::var("PORT").ok().and_then(|p| p.parse().ok()).unwrap_or(8080);
-        
+
     HttpServer::new(|| App::new().configure(jobs::init_routes).wrap(
-      Cors::new()
-          .allowed_origin("https://rustjobsf.herokuapp.com")
-          .allowed_methods(vec!["GET", "POST"])
-          .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
-          .allowed_header(header::CONTENT_TYPE)
-          .max_age(3600)
-          .finish(),
+       Cors::new()
+        .allowed_origin(env::var("CORS").unwrap().as_str())
+        .allowed_methods(vec!["GET", "POST"])
+        .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
+        .allowed_header(header::CONTENT_TYPE)
+        .max_age(3600)
+        .finish()
     )
     .wrap(Logger::default()))
     .bind(format!("{}:{}", host, port))?
