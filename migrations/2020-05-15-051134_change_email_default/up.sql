@@ -1,0 +1,1 @@
+alter table jobs alter column job_email drop not null;

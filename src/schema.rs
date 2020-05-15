@@ -9,7 +9,7 @@ table! {
         currency -> Varchar,
         apply_url -> Nullable<Varchar>,
         job_city -> Varchar,
-        job_email -> Varchar,
+        job_email -> Nullable<Varchar>,
         company -> Varchar,
         company_twitter -> Nullable<Varchar>,
         company_website -> Varchar,
