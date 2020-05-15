@@ -20,14 +20,14 @@ async fn main() -> std::io::Result<()> {
     db::init();
     env_logger::init();
 
-    const LOCALHOST: IpAddr = IpAddr::V4(Ipv4Addr::new(127, 0, 0, 1));
+    const LOCALHOST: IpAddr = IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0));
     
     let host = env::var("HOST")
         .ok()
         .and_then(|host| host.parse().ok())
         .unwrap_or(LOCALHOST);
     
-    let port = env::var("PORT").map(|s| s.parse().unwrap_or(3000)).unwrap_or(3000);
+    let port = env::var("PORT").ok().and_then(|p| p.parse().ok()).unwrap_or(8080);
         
     HttpServer::new(|| App::new().configure(jobs::init_routes).wrap(
       Cors::new()
