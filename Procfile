@@ -1,2 +1,1 @@
-web ./target/release/rustjobs
-heroku buildpacks:set emk/rust
+web: ./target/release/rustjobs
